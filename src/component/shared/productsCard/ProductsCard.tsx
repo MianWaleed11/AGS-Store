@@ -1,10 +1,8 @@
 import React from "react";
 import "./ProductsCards.css";
 import { IproductsCardsProps } from "../../../interfaces";
-import Skeleton from "react-loading-skeleton";
 import { selectloading } from "../../../redux/Products/products.selector";
 import { useSelector } from "react-redux";
-import CardSkeleton from "../../skeletons/CardSkeleton";
 
 export const ProductsCards: React.FC<IproductsCardsProps> = (props) => {
   const isLoading = useSelector(selectloading);

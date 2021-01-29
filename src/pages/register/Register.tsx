@@ -3,11 +3,9 @@ import { ILoginData } from "../../interfaces/register.interface";
 import { useForm } from "react-hook-form";
 import { RegisterSchema } from "../../validations/register.validation";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useDispatch } from "react-redux";
 import "./register.css";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
-import * as Actions from "../../redux";
 import FacebookLogin from "react-facebook-login";
 import { GoogleLogin } from "react-google-login";
 // 564695661364-q05j2r1ptgu63jdoorulcl5iho8n54kv.apps.googleusercontent.com client id
@@ -15,17 +13,16 @@ import { GoogleLogin } from "react-google-login";
 
 const RegisterPage: React.FC = () => {
   let history = useHistory();
+  console.log('ENV '+process.env.REACT_APP_BASE_URL)
 
-  const dispatch = useDispatch();
 
   const { register, handleSubmit, errors } = useForm({
     resolver: yupResolver(RegisterSchema),
   });
 
   const onSubmit = async (data: ILoginData) => {
-    console.log(data)
     try {
-      await axios.post("http://localhost:5000/api/users/register", data);
+      await axios.post(process.env.REACT_APP_BASE_URL+"/users/register", data);
       history.replace("/login");
     } catch (error) {
       console.log(error);

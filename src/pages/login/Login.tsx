@@ -34,14 +34,12 @@ const Login: React.FC<LoginProps> = () => {
   const registerFirst = () => {
     history.replace("/register");
   };
-  
-  const onSubmit =async  (data: LogInInterface) => {
-  
-   const res:any=await  dispatch(Actions.loginUser(data));
-   console.log(res);
-   
+
+  const onSubmit = async (data: LogInInterface) => {
+    const res: any = await dispatch(Actions.loginUser(data));
+    console.log(res);
+
     if (res.payload.loginSuccess === false) {
-    
       Swal.fire({
         title: "product info",
         titleText: "Please Register Your Account",
@@ -55,7 +53,6 @@ const Login: React.FC<LoginProps> = () => {
         }
       });
     } else {
-   
       const Toast = Swal.mixin({
         toast: true,
         position: "top-end",

@@ -9,7 +9,6 @@ import {
   selectloading,
   selectProducts,
 } from "../../redux/Products/products.selector";
-import CardSkeleton from "../../component/skeletons/CardSkeleton";
 
 const Products: React.FC = () => {
   const [disabled, setdisabled] = useState<boolean>(false);
@@ -71,25 +70,29 @@ const Products: React.FC = () => {
   //main return section;
   return (
     <>
-      <Container fluid>
-        <h3 className="text-capitalize text-dark pt-2 text-center">
-          {category}
-          {console.log("from product", isLoading)}
-        </h3>
-        <Row>{productsByCategory}</Row>
-        <div className="text-center pt-5 d-block">
-          <button
-            className="btn btn-primary  btn-lg btn-block"
-            onClick={loadMoreHandler}
-            disabled={disabled}
-          >
-            SHOW ALL CATEGORIES
-          </button>
-        </div>
-      </Container>
-      <Container fluid>
-        <Row>{disabled ? allProducts : null}</Row>
-      </Container>
+      {disabled ? (
+        <Container fluid>
+          <Row>{allProducts}</Row>
+        </Container>
+      ) : (
+        <>
+          <Container fluid>
+            <h3 className="text-capitalize text-dark pt-2 text-center">
+              {category}
+              {console.log("from product", isLoading)}
+            </h3>
+            <Row>{productsByCategory}</Row>
+            <div className="text-center pt-5 d-block">
+              <button
+                className="btn btn-primary  btn-lg btn-block"
+                onClick={loadMoreHandler}
+              >
+                SHOW ALL PRODUCTS
+              </button>
+            </div>
+          </Container>
+        </>
+      )}
     </>
   );
 };

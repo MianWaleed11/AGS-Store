@@ -2,33 +2,26 @@ import React from "react";
 import "./Navbar.css";
 import {
   Cart,
-  Upload,
-  UiRadiosGrid,
   PersonCircle,
 } from "react-bootstrap-icons";
-import { Alert } from "react-bootstrap";
 import { NavLink, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import * as Actions from "../../redux";
-import axios from "axios";
 import { selectIsLoggedIn, selectToken } from "../../redux/user/user.selector";
 import {
   selectProducts,
   selectquery,
 } from "../../redux/Products/products.selector";
 import { Iproduct } from "../../interfaces";
-import { selectCart, selectCartInfo } from "../../redux/cart/cart.selector";
+import { selectCart } from "../../redux/cart/cart.selector";
 import Swal from "sweetalert2";
 export interface NavBarProps {}
 
 const NavBar: React.FC<NavBarProps> = () => {
   let history = useHistory();
   const dispatch = useDispatch();
-
-  //useselectors
   const isloggedIn = useSelector(selectIsLoggedIn);
   const query = useSelector(selectquery);
-  const cartInfo = useSelector(selectCartInfo);
   const token = useSelector(selectToken);
   const cart = useSelector(selectCart);
   const products = useSelector(selectProducts);
@@ -47,7 +40,7 @@ const NavBar: React.FC<NavBarProps> = () => {
     e.preventDefault();
 
     const filteredbyTitle = products.filter(
-      (product: Iproduct, index: number) => {
+      (product: Iproduct) => {
         return product.title === query;
       }
     );
@@ -62,8 +55,6 @@ const NavBar: React.FC<NavBarProps> = () => {
     } else {
       history.push(`/productDetail/${filteredbyTitle[0]._id}`);
     }
-    //ssadasdasd
-    //asdhoiusgad
   };
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(Actions.setChangeHandler(e.target.value));
@@ -137,11 +128,11 @@ const NavBar: React.FC<NavBarProps> = () => {
               to={uploadTo}
               style={{ paddingTop: "10px" }}
             >
-              Uplaod
+              Upload
             </NavLink>
           </li>
           <li className="nav-item">
-            <NavLink className="nav-link" to="/addtocart" id="navLink">
+            <NavLink className="nav-link" to={cartTo} id="navLink">
               <Cart size={25} className="cart_icon" />
               <span className="badge badge-warning" id="badge_icon">
                 {token.length > 0 && cart?.length}
@@ -160,7 +151,6 @@ const NavBar: React.FC<NavBarProps> = () => {
               >
                 <PersonCircle size={25} color="white" className="cart_icon" />
               </a>
-
               <div
                 className="dropdown-menu"
                 aria-labelledby="dropdownMenuButton"
@@ -176,7 +166,6 @@ const NavBar: React.FC<NavBarProps> = () => {
             </li>
           )}
         </ul>
-
         <form className="form-inline my-2 my-lg-0" onSubmit={submitHandler}>
           <input
             className="form-control mr-sm-2"
